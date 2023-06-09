@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
+import { NgIfContext } from '@angular/common';
+
+import { Item } from './item';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +9,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  elseBlock!: TemplateRef<NgIfContext<boolean>> | null;
+
   title = 'todo';
 
   filter: 'all' | 'active' | 'done' = 'all';
@@ -31,5 +36,9 @@ export class AppComponent {
       description,
       done: false,
     });
+  }
+
+  remove(item: Item) {
+    this.allItems.splice(this.allItems.indexOf(item), 1);
   }
 }
