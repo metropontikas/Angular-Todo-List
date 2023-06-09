@@ -1,8 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Item } from '../item';
+export class ItemComponent {
+  editable = false;
 
-@Component({
-  selector: 'app-item',
-  templateUrl: './item.component.html',
-  styleUrls: ['./item.component.scss'],
-})
-export class ItemComponent {}
+  @Input() item!: Item;
+  @Output() remove = new EventEmitter<Item>();
+
+  saveItem(description: string) {
+    if (!description) return;
+    this.editable = false;
+    this.item.description = description;
+  }
+}
