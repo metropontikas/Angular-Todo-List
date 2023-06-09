@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
+import { NgIfContext } from '@angular/common';
 
 import { Item } from './item';
 
@@ -8,6 +9,8 @@ import { Item } from './item';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  elseBlock!: TemplateRef<NgIfContext<boolean>> | null;
+
   title = 'todo';
 
   filter: 'all' | 'active' | 'done' = 'all';
