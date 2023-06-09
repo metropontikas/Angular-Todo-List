@@ -13,6 +13,7 @@ export class ItemComponent {
   @Output() remove = new EventEmitter<Item>();
 
   saveItem(description: string) {
+    // TODO: instead return an alert to populate the input
     if (!description) return;
     this.editable = false;
     this.item.description = description;
