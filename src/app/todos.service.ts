@@ -31,4 +31,8 @@ export class TodosService {
   deleteTodo(id: Item['id']): Observable<any> {
     return this.http.delete(`${this.baseURL}/${id}`);
   }
+
+  filterTodos(key: any, value: any): Observable<any> {
+    return this.http.get(`${this.baseURL}?${key}=${value}`);
+  }
 }
