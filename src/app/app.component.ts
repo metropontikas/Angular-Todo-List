@@ -20,6 +20,14 @@ export class AppComponent {
   constructor(private todosService: TodosService) {}
 
   ngOnInit() {
+    this.resetList();
+  }
+
+  get items() {
+    return this.allItems;
+  }
+
+  resetList() {
     this.todosService.getAllTodos().subscribe((data) => {
       this.allItems = data;
     });
@@ -28,9 +36,6 @@ export class AppComponent {
       .subscribe((data) => (this.uncompletedItems = data));
   }
 
-  get items() {
-    return this.allItems;
-  }
   addTodo(value: any) {
     let data = JSON.stringify({
       id: Math.random(),
@@ -40,10 +45,12 @@ export class AppComponent {
 
     this.todosService.postTodo(data).subscribe();
     this.allItems.push(JSON.parse(data));
+    this.uncompletedItems.push(JSON.parse(data));
   }
 
   deleteTodo(id: Item['id']) {
     this.allItems = this.allItems.filter((todo) => todo.id != id);
+    this.uncompletedItems = this.allItems.filter((todo) => todo.id != id);
 
     this.todosService.deleteTodo(id).subscribe();
   }
@@ -72,5 +79,14 @@ export class AppComponent {
     });
 
     this.todosService.updateTodo(data, todo.id).subscribe();
+  }
+
+  filterTodosByName(text: Item['title']) {
+    this.todosService.filterTodos('title', text).subscribe((res) => {
+      this.allItems = res;
+      this.uncompletedItems = this.allItems.filter(
+        (item) => item.completed === false
+      );
+    });
   }
 }
