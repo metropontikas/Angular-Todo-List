@@ -1,15 +1,15 @@
 <div class="item">
   <input
-    [id]="item.description"
+    [id]="item.title"
     type="checkbox"
-    (change)="item.done = !item.done"
-    [checked]="item.done"
+    (change)="handleCompletedStatus.emit()"
+    [checked]="item.completed"
   />
-  <label [for]="item.description">{{ item.description }}</label>
+  <label [for]="item.title">{{ item.title }}</label>
 
   <div class="btn-wrapper" *ngIf="!editable">
     <button class="btn" (click)="editable = !editable">Edit</button>
-    <button class="btn btn-warn" (click)="remove.emit()">Delete</button>
+    <button class="btn btn-warn" (click)="deleteTodo.emit()">Delete</button>
   </div>
 
   <!-- This section shows only if user clicks Edit button -->
@@ -17,14 +17,14 @@
     <input
       class="sm-text-input"
       placeholder="edit item"
-      [value]="item.description"
+      [value]="item.title"
       #editedItem
-      (keyup.enter)="saveItem(editedItem.value)"
+      (keyup.enter)="saveItem(editedItem.value, item)"
     />
 
     <div class="btn-wrapper">
       <button class="btn" (click)="editable = !editable">Cancel</button>
-      <button class="btn btn-save" (click)="saveItem(editedItem.value)">
+      <button class="btn btn-save" (click)="saveItem(editedItem.value, item)">
         Save
       </button>
     </div>
