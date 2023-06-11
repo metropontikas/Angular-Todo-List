@@ -6,14 +6,14 @@
   <input
     #newItem
     placeholder="add an item"
-    (keyup.enter)="submitData(newItem.value); newItem.value = ''"
+    (keyup.enter)="addTodo(newItem.value); newItem.value = ''"
     class="lg-text-input"
     id="addItemInput"
   />
 
   <button
     class="btn-primary"
-    (click)="submitData(newItem.value); newItem.value = ''"
+    (click)="addTodo(newItem.value); newItem.value = ''"
   >
     Add
   </button>

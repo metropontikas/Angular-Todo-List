@@ -2,7 +2,7 @@
   <input
     [id]="item.title"
     type="checkbox"
-    (change)="handleCompletedStatus.emit()"
+    (change)="handleCompletedStatus.emit(item)"
     [checked]="item.completed"
   />
   <label [for]="item.title">{{ item.title }}</label>

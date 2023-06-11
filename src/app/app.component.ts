@@ -16,6 +16,7 @@ export class AppComponent {
   allItems: Item[] = [];
   // Filter the todos to display the number of the uncompleted ones
   uncompletedItems: Item[] = [];
+
   constructor(private todosService: TodosService) {}
 
   ngOnInit() {
@@ -30,7 +31,7 @@ export class AppComponent {
   get items() {
     return this.allItems;
   }
-  submitData(value: any) {
+  addTodo(value: any) {
     let data = JSON.stringify({
       id: Math.random(),
       title: value,
@@ -38,9 +39,12 @@ export class AppComponent {
     });
 
     this.todosService.postTodo(data).subscribe();
+    this.allItems.push(JSON.parse(data));
   }
 
   deleteTodo(id: Item['id']) {
+    this.allItems = this.allItems.filter((todo) => todo.id != id);
+
     this.todosService.deleteTodo(id).subscribe();
   }
 
@@ -49,7 +53,16 @@ export class AppComponent {
       ...todo,
       completed: !todo.completed,
     });
+
     this.todosService.updateTodo(data, todo.id).subscribe();
+
+    this.allItems = this.allItems.map((item) =>
+      item.id === todo.id ? { ...item, completed: !item.completed } : item
+    );
+
+    this.uncompletedItems = this.allItems.filter(
+      (item) => item.completed === false
+    );
   }
 
   todoNameChangeHandler(todo: Item) {
@@ -57,6 +70,7 @@ export class AppComponent {
       ...todo,
       title: todo.title,
     });
+
     this.todosService.updateTodo(data, todo.id).subscribe();
   }
 }
