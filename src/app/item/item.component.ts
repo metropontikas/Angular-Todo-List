@@ -10,12 +10,15 @@ export class ItemComponent {
   editable = false;
 
   @Input() item!: Item;
-  @Output() remove = new EventEmitter<Item>();
+  @Output() deleteTodo = new EventEmitter<Item>();
+  @Output() handleCompletedStatus = new EventEmitter<Item>();
+  @Output() todoNameChangeHandler = new EventEmitter();
 
-  saveItem(description: string) {
+  saveItem(title: string, item: Item) {
     // TODO: instead return an alert to populate the input
-    if (!description) return;
+    if (!title) return;
     this.editable = false;
-    this.item.description = description;
+    this.item.title = title;
+    this.todoNameChangeHandler.emit(this.item.title);
   }
 }
