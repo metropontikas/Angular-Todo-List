@@ -1,22 +1,44 @@
 <div class="main">
-  <h1>My To Do List</h1>
+  <header class="head">
+    <h1>My To Do List</h1>
+    <h2>Gotta do them all!</h2>
+  </header>
 
-  <label for="addItemInput">What would you like to do today?</label>
+  <label for="addItemInput">Remind myself to:</label>
 
   <input
-    #newItem
+    #addItem
     placeholder="add an item"
-    (keyup.enter)="addTodo(newItem.value); newItem.value = ''"
+    (keyup.enter)="addTodo(addItem.value); addItem.value = ''"
     class="lg-text-input"
     id="addItemInput"
   />
 
   <button
     class="btn-primary"
-    (click)="addTodo(newItem.value); newItem.value = ''"
+    (click)="addTodo(addItem.value); addItem.value = ''"
   >
     Add
   </button>
+
+  <label for="searchItemInput">I remembered I need to:</label>
+
+  <input
+    #searchItem
+    placeholder="Search todo by title"
+    (keyup.enter)="filterTodosByName(searchItem.value); searchItem.value = ''"
+    class="lg-text-input"
+    id="searchItemInput"
+  />
+  <div class="btn-wrapper">
+    <button
+      class="btn"
+      (click)="filterTodosByName(searchItem.value); searchItem.value = ''"
+    >
+      Search
+    </button>
+    <button class="btn" (click)="resetList()">Reset List</button>
+  </div>
 
   <h2>
     {{ uncompletedItems.length }}

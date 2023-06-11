@@ -4,44 +4,44 @@
   font-size: 1.2rem;
 }
 
-.btn-wrapper {
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-}
-
 .btn {
   /* menu buttons flexbox styles */
   flex-basis: 49%;
-}
 
-.btn-save {
-  background-color: #000;
-  color: #fff;
-  border-color: #000;
-  &:hover {
-    background-color: #444242;
+  &-wrapper {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
   }
-  &:focus {
-    background-color: #fff;
-    color: #000;
+
+  &-save {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+    &:hover {
+      background-color: #444242;
+    }
+    &:focus {
+      background-color: #fff;
+      color: #000;
+    }
+  }
+
+  &-warn {
+    background-color: #b90000;
+    color: #fff;
+    border-color: #9a0000;
+    &:hover {
+      background-color: #9a0000;
+    }
+    &:active {
+      background-color: #e30000;
+      border-color: #000;
+    }
   }
 }
 
 .checkbox-wrapper {
   margin: 0.5rem 0;
-}
-
-.btn-warn {
-  background-color: #b90000;
-  color: #fff;
-  border-color: #9a0000;
-  &:hover {
-    background-color: #9a0000;
-  }
-  &:active {
-    background-color: #e30000;
-    border-color: #000;
-  }
 }
 
 .sm-text-input {
