@@ -6,27 +6,34 @@
   <input
     #newItem
     placeholder="add an item"
-    (keyup.enter)="addItem(newItem.value); newItem.value = ''"
+    (keyup.enter)="submitData(newItem.value); newItem.value = ''"
     class="lg-text-input"
     id="addItemInput"
   />
 
   <button
     class="btn-primary"
-    (click)="addItem(newItem.value); newItem.value = ''"
+    (click)="submitData(newItem.value); newItem.value = ''"
   >
     Add
   </button>
 
   <h2>
-    {{ items.length }}
-    <span *ngIf="items.length === 1; else elseBlock">item</span>
-    <ng-template #elseBlovk>items</ng-template>
+    {{ uncompletedItems.length }}
+    <span *ngIf="uncompletedItems.length < 2; else elseBlock">
+      Todo to be completed</span
+    >
+    <ng-template #elseBlock> Todos to be completed</ng-template>
   </h2>
 
   <ul>
     <li *ngFor="let i of items">
-      <app-item (remove)="remove(i)" [item]="i"></app-item>
+      <app-item
+        (deleteTodo)="deleteTodo(i.id)"
+        (handleCompletedStatus)="handleCompletedStatus(i)"
+        (todoNameChangeHandler)="todoNameChangeHandler(i)"
+        [item]="i"
+      ></app-item>
     </li>
   </ul>
 </div>

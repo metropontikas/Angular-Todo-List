@@ -1,6 +1,7 @@
 import { Component, TemplateRef } from '@angular/core';
 import { NgIfContext } from '@angular/common';
 
+import { TodosService } from './todos.service';
 import { Item } from './item';
 
 @Component({
@@ -9,36 +10,53 @@ import { Item } from './item';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  // Declare elseBlock type
   elseBlock!: TemplateRef<NgIfContext<boolean>> | null;
+  // Initialize variable
+  allItems: Item[] = [];
+  // Filter the todos to display the number of the uncompleted ones
+  uncompletedItems: Item[] = [];
+  constructor(private todosService: TodosService) {}
 
-  title = 'todo';
-
-  filter: 'all' | 'active' | 'done' = 'all';
-
-  allItems = [
-    { description: 'eat', done: true },
-    { description: 'sleep', done: false },
-    { description: 'play', done: false },
-    { description: 'laugh', done: false },
-  ];
+  ngOnInit() {
+    this.todosService.getAllTodos().subscribe((data) => {
+      this.allItems = data;
+    });
+    this.todosService
+      .getAllUncompleted()
+      .subscribe((data) => (this.uncompletedItems = data));
+  }
 
   get items() {
-    if (this.filter === 'all') {
-      return this.allItems;
-    }
-    return this.allItems.filter((item) =>
-      this.filter === 'done' ? item.done : !item.done
-    );
+    return this.allItems;
   }
-
-  addItem(description: string) {
-    this.allItems.unshift({
-      description,
-      done: false,
+  submitData(value: any) {
+    let data = JSON.stringify({
+      id: Math.random(),
+      title: value,
+      completed: false,
     });
+
+    this.todosService.postTodo(data).subscribe();
   }
 
-  remove(item: Item) {
-    this.allItems.splice(this.allItems.indexOf(item), 1);
+  deleteTodo(id: Item['id']) {
+    this.todosService.deleteTodo(id).subscribe();
+  }
+
+  handleCompletedStatus(todo: Item) {
+    let data = JSON.stringify({
+      ...todo,
+      completed: !todo.completed,
+    });
+    this.todosService.updateTodo(data, todo.id).subscribe();
+  }
+
+  todoNameChangeHandler(todo: Item) {
+    let data = JSON.stringify({
+      ...todo,
+      title: todo.title,
+    });
+    this.todosService.updateTodo(data, todo.id).subscribe();
   }
 }
